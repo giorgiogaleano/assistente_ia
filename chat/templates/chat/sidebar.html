@@ -1,0 +1,65 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary border-end vh-100 position-fixed" style="width: 280px; top: 0; left: 0; z-index: 1000;">
+    
+    <!-- 1. Pulsante Nuova Chat -->
+    <a href="#" class="btn btn-outline-primary d-flex align-items-center justify-content-start gap-2 mb-3 rounded-pill py-2 px-3 shadow-sm">
+        <i class="bi bi-plus-lg fs-5"></i>
+        <span class="fw-medium">Nuova chat</span>
+    </a>
+
+    <hr class="my-2">
+
+    <!-- 2. Elenco delle Chat dell'Utente -->
+    <div class="flex-grow-1 overflow-auto">
+        <div class="text-uppercase text-muted fw-bold px-2 mb-2" style="font-size: 0.75rem;">
+            Recenti
+        </div>
+        <ul class="nav nav-pills flex-column gap-1">
+            <!-- Ciclo per le chat dell'utente (per ora con dati di prova / placeholder) -->
+            {% if user_chats %}
+                {% for chat in user_chats %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-truncate text-dark d-flex align-items-center gap-2 rounded-3 py-2">
+                            <i class="bi bi-chat-left-text text-secondary"></i>
+                            <span>{{ chat.title|default:"Nuova conversazione" }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="nav-item">
+                    <span class="nav-link text-muted fs-7 italic">Nessuna chat recente</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <hr class="my-2">
+
+    <!-- 3. Profilo Utente e Menù Impostazioni Rapide (In Basso) -->
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle p-2 rounded-3 hover-bg" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <!-- Avatar / Iniziale Utente -->
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; font-weight: bold;">
+                {{ request.user.username|slice:":1"|upper }}
+            </div>
+            <strong class="text-truncate me-auto" style="max-width: 130px;">{{ request.user.username }}</strong>
+            <i class="bi bi-gear-fill text-secondary fs-5 ms-1"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mb-2" aria-labelledby="dropdownUser1">
+            <li>
+                <a class="dropdown-menu-item dropdown-item d-flex align-items-center gap-2" href="#">
+                    <i class="bi bi-person-gear"></i> Impostazioni account
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <!-- Form per il Logout sicuro in Django (POST) -->
+                {% comment %} <form method="post" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2 w-100 text-start">
+                        <i class="bi bi-box-arrow-right"></i> Esci
+                    </button>
+                </form> {% endcomment %}
+            </li>
+        </ul>
+    </div>
+</div>
